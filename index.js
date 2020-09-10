@@ -1,7 +1,8 @@
 const inquirer = require("inquirer");
 const fs = require('fs');
+// const generate = require("./generateMarkdown")
 
-inquirer.prompt([
+const questions = [
     {
         type: "input",
         name: "title",
@@ -39,8 +40,8 @@ inquirer.prompt([
     },
     {
         type: "input",
-        name: "Please enter your email address.",
-        message: ""
+        name: "email",
+        message: "Please enter your email address"
     },
     {
         type: "list",
@@ -60,7 +61,48 @@ inquirer.prompt([
             "WTFPL"
         ]
     }
-])
+]
+inquirer.prompt(questions).then(function(data){
+    const markdown = generateMarkdown(data)
+    fs.writeFile("README.md", markdown, function(err) {
+
+        if (err) {
+            return console.log(err);
+        }
+    })
+    // console.log(markdown)
+})
+
+function generateMarkdown(data){
+    return `
+# ${data.title}
+
+${data.description}
+
+## Table of Contents
+[Installation] (#installation)
+
+
+## Installation
+${data.installation}
+
+## Usage
+${data.usage}
+
+## License
+${data.license}
+
+## Contributing
+${data.contribution}
+
+## Tests
+${data.test}
+
+## Questions
+${data.github}
+${data.email}
+`
+}
 
 // Title
 // Description
