@@ -1,7 +1,8 @@
+// requirements for npm
 const inquirer = require("inquirer");
 const fs = require('fs');
-// const generate = require("./generateMarkdown")
 
+//array containing questions for inquirer prompt
 const questions = [
     {
         type: "input",
@@ -62,19 +63,43 @@ const questions = [
         ]
     }
 ]
+
+//array containing urls ofr license badges
+const badges = [
+    "[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)",
+    "[![License](https://img.shields.io/badge/License-Boost%201.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)",
+    "[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)",
+    "[![License](https://img.shields.io/badge/License-EPL%201.0-red.svg)](https://opensource.org/licenses/EPL-1.0)",
+    "[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)",
+    "[![License: IPL 1.0](https://img.shields.io/badge/License-IPL%201.0-blue.svg)](https://opensource.org/licenses/IPL-1.0)",
+    "[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)",
+    "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+    "[![License: MPL 2.0](https://img.shields.io/badge/License-MPL%202.0-brightgreen.svg)](https://opensource.org/licenses/MPL-2.0)",
+    "[![License: Unlicense](https://img.shields.io/badge/license-Unlicense-blue.svg)](http://unlicense.org/)",
+    "[![License: WTFPL](https://img.shields.io/badge/License-WTFPL-brightgreen.svg)](http://www.wtfpl.net/about/)",
+]
+
+//function to prompt user in command line
 inquirer.prompt(questions).then(function(data){
+    
+    //runs function to generate content of markdown and store it to a variable
     const markdown = generateMarkdown(data)
+
+    //creates readme file using content created above
     fs.writeFile("README.md", markdown, function(err) {
 
         if (err) {
             return console.log(err);
         }
+
     })
-    // console.log(markdown)
 })
 
+//function to create markdown file with user inputs
 function generateMarkdown(data){
+    const badge = badges[questions[8].choices.indexOf(data.license)];
     return `
+${badge}
 # ${data.title}
 
 ${data.description}
@@ -83,33 +108,23 @@ ${data.description}
 [Installation] (#installation)
 
 
-## Installation
+### Installation
 ${data.installation}
 
-## Usage
+### Usage
 ${data.usage}
 
-## License
+### License
 ${data.license}
 
-## Contributing
+### Contributing
 ${data.contribution}
 
-## Tests
+### Tests
 ${data.test}
 
-## Questions
+### Questions
 ${data.github}
 ${data.email}
 `
 }
-
-// Title
-// Description
-// Table of Contents
-// Installation
-// Usage
-// License
-// Contributing
-// Tests
-// Questions
