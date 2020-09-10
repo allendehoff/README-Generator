@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/allendehoff/README-Generator/issues"
   },
-  "homepage": "https://github.com/allendehoff/README-Generator#readme"
+  "homepage": "https://github.com/allendehoff/README-Generator#readme",
+  "dependencies": {
+    "inquirer": "^7.3.3",
+    "node-modules": "^1.0.1"
+  },
+  "devDependencies": {}
 }
